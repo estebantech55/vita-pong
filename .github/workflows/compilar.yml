@@ -10,11 +10,19 @@ jobs:
     container:
       image: vitasdk/vitasdk:latest
     steps:
+      - name: Permitir acceso a Git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Descargar codigo
         uses: actions/checkout@v4
 
-      - name: Compilar VPK
-        run: make
+      - name: Compilar juego directamente
+        run: |
+          arm-vita-eabi-gcc -Wl,-q -Wall -O3 main.c -lvita2d -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub -lSceTouch_stub -lm -o PSVitaPong.elf
+          vita-elf-create PSVitaPong.elf PSVitaPong.velf
+          vita-make-fself PSVitaPong.velf eboot.bin
+          vita-mksfoex -s TITLE_ID=PONG00001 "PSVitaPong" param.sfo
+          vita-pack-vpk -s param.sfo -b eboot.bin PSVitaPong.vpk
 
       - name: Guardar archivo VPK
         uses: actions/upload-artifact@v4
