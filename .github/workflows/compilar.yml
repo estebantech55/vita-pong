@@ -18,7 +18,7 @@ jobs:
 
       - name: Compilar juego directamente
         run: |
-          arm-vita-eabi-gcc -Wl,-q -Wall -O3 main.c -lvita2d -lfreetype -lpng -ljpeg -lz -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub -lSceTouch_stub -lScePgf_stub -lSceCommonDialog_stub -lSceSysmodule_stub -lSceAppMgr_stub -lSceSharedFb_stub -lm -lc -o PSVitaPong.elf
+          arm-vita-eabi-gcc -Wl,-q -Wall -O3 main.c -lvita2d -lfreetype -lpng -ljpeg -lz -lSceDisplay_stub -lSceGxm_stub -lSceCtrl_stub -lSceTouch_stub -lScePgf_stub -lSceCommonDialog_stub -lSceSysmodule_stub -lSceAppMgr_stub -lm -lc -o PSVitaPong.elf
           vita-elf-create PSVitaPong.elf PSVitaPong.velf
           vita-make-fself PSVitaPong.velf eboot.bin
           vita-mksfoex -s TITLE_ID=PONG00001 "PSVitaPong" param.sfo
