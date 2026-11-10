@@ -1,0 +1,23 @@
+name: Compilar para PS Vita
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: vitasdk/vitasdk:latest
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Compilar VPK
+        run: make
+
+      - name: Guardar archivo VPK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PSVitaPong-Instalador
+          path: "*.vpk"
